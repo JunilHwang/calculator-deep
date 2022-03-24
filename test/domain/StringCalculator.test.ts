@@ -1,5 +1,9 @@
-import { beforeAll, describe, expect } from "vitest";
-import { Operator, StringCalculator } from "../../src/domain";
+import { beforeAll, describe, expect, it } from "vitest";
+import {
+  InvalidCalculatorExecuteException,
+  Operator,
+  StringCalculator,
+} from "../../src/domain";
 
 describe("문자열 계산기 테스트", () => {
   let stringCalculator;
@@ -8,8 +12,26 @@ describe("문자열 계산기 테스트", () => {
   });
 
   describe("검증", () => {
-    it("문자열 > 숫자: 1", () => {
-      expect(() => stringCalculator.execute()).toThrow();
+    it("입력 받은게 아예 없을 경우 오류 발생", () => {
+      expect(() => stringCalculator.execute()).toThrow(
+        InvalidCalculatorExecuteException
+      );
+    });
+
+    it("입력 받은 숫자 없이 실행할 경우 오류 발생", () => {
+      stringCalculator.operator = Operator.ADD;
+
+      expect(() => stringCalculator.execute()).toThrow(
+        InvalidCalculatorExecuteException
+      );
+    });
+
+    it("입력 받은 연산자 없이 실행할 경우", () => {
+      stringCalculator.push("1");
+      stringCalculator.push("2");
+      expect(() => stringCalculator.execute()).toThrow(
+        InvalidCalculatorExecuteException
+      );
     });
   });
 
@@ -131,5 +153,20 @@ describe("문자열 계산기 테스트", () => {
       Operator.ADD,
       3,
     ]);
+  });
+
+  it("계산기 리셋", () => {
+    stringCalculator.push("2");
+    stringCalculator.push("3");
+    stringCalculator.operator = Operator.ADD;
+    expect(stringCalculator.execute()).toBe(5);
+    expect(stringCalculator.record).toBe([2, Operator.ADD, 3]);
+
+    stringCalculator.reset();
+    expect(stringCalculator.record).toBe([]);
+
+    expect(() => stringCalculator.execute()).toThrow(
+      InvalidCalculatorExecuteException
+    );
   });
 });
