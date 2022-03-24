@@ -13,3 +13,5 @@ export class InvalidOperatorConstructException extends Error {
     super(InvalidOperatorConstructException.MESSAGE);
   }
 }
+
+export class InvalidCalculatorExecuteException extends Error {}
