@@ -14,4 +14,14 @@ export class InvalidOperatorConstructException extends Error {
   }
 }
 
+export class NotFoundOperatorException extends Error {
+  public static MESSAGE = "존재하지 않는 연산자입니다.";
+
+  constructor() {
+    super(NotFoundOperatorException.MESSAGE);
+  }
+}
+
 export class InvalidCalculatorExecuteException extends Error {}
+
+export class InvalidNumberExecuteException extends Error {}

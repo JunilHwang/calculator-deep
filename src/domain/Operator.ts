@@ -11,6 +11,7 @@ export class Operator {
   public static SUBTRACT = new Operator("-", (x, y) => x - y);
   public static MULTIPLY = new Operator("X", (x, y) => x * y);
   public static DIVISION = new Operator("/", (x, y) => x / y);
+  public static EQUALS = "=";
 
   constructor(
     private readonly operator: string,
@@ -34,10 +35,17 @@ export class Operator {
   }
 
   public static calculate(symbol: string, x: number, y: number) {
-    const operator: Operator = this.values[symbol];
-    if (operator === undefined) {
+    return this.valueOf(symbol).calculate(x, y);
+  }
+
+  public static valueOf(symbol: string) {
+    if (!this.has(symbol)) {
       throw new NotFoundOperatorException();
     }
-    return this.values[symbol].calculate(x, y);
+    return this.values[symbol];
+  }
+
+  public static has(symbol: string) {
+    return Boolean(this.values[symbol]);
   }
 }
