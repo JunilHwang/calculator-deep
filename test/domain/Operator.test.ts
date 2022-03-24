@@ -102,7 +102,7 @@ describe("연산자 테스트", () => {
     });
 
     it("나눗셈", () => {
-      expect(Operator.calculate(Operator.MULTIPLY.symbol, 3, 2)).toBe(1.5);
+      expect(Operator.calculate(Operator.DIVISION.symbol, 3, 2)).toBe(1.5);
     });
 
     it("연산자 추가", () => {
