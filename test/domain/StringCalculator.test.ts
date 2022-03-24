@@ -7,6 +7,12 @@ describe("문자열 계산기 테스트", () => {
     stringCalculator = new StringCalculator();
   });
 
+  describe("검증", () => {
+    it("문자열 > 숫자: 1", () => {
+      expect(() => stringCalculator.execute()).toThrow();
+    });
+  });
+
   describe("형변환", () => {
     it("문자열 > 숫자: 1", () => {
       stringCalculator.push("1");

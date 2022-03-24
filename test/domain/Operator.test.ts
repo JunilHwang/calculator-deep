@@ -1,9 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { Operator } from "../../src/domain";
+import {
+  InvalidOperatorConstructException,
+  InvalidOperatorParamException,
+  Operator,
+} from "../../src/domain";
 
 describe("연산자 테스트", () => {
   const x = 10;
   const y = 4;
+
+  describe("검증", () => {
+    it("생성자 검증", () => {
+      expect(() => new Operator(undefined, undefined)).toThrow(
+        InvalidOperatorConstructException
+      );
+    });
+
+    it("연산 검증", () => {
+      expect(() => Operator.ADD.calculate(undefined, undefined)).toThrow(
+        InvalidOperatorParamException
+      );
+    });
+  });
 
   describe("덧셈, 뺄셈, 나눗셈, 곱셈 심볼 검사", () => {
     it("덧셈 = +", () => {
