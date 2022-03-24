@@ -90,7 +90,7 @@ html {
 }
 
 .calculator .number-pad-container > div.operators.rows > button {
-  width: 25%;
+  width: 75%;
 }
 
 .calculator .number-pad-container > div.operators.cols {

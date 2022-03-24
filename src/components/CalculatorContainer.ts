@@ -1,3 +1,5 @@
+import { Operator } from "../domain";
+
 export function CalculatorContainer() {
   return `
     <div class="calculator">
@@ -10,15 +12,14 @@ export function CalculatorContainer() {
     
       <div class="number-pad-container">
         <div class="operators rows">
-          <button type="button">c</button>
-          <button type="button">±</button>
-          <button type="button">÷</button>
+          <button type="button">C</button>
         </div>
         <div class="operators cols">
-          <button type="button">×</button>
-          <button type="button">-</button>
-          <button type="button">+</button>
-          <button class="big" type="button">=</button>
+          <button type="button">${Operator.ADD.symbol}</button>
+          <button type="button">${Operator.SUBTRACT.symbol}</button>
+          <button type="button">${Operator.MULTIPLY.symbol}</button>
+          <button type="button">${Operator.DIVISION.symbol}</button>
+          <button type="button">${Operator.EQUALS}</button>
         </div>
         <div class="numbers">
           <button type="button">9</button>

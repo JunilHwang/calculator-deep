@@ -9,7 +9,7 @@ export class Operator {
 
   public static ADD = new Operator("+", (x, y) => x + y);
   public static SUBTRACT = new Operator("-", (x, y) => x - y);
-  public static MULTIPLY = new Operator("X", (x, y) => x * y);
+  public static MULTIPLY = new Operator("x", (x, y) => x * y);
   public static DIVISION = new Operator("/", (x, y) => x / y);
   public static EQUALS = "=";
 
