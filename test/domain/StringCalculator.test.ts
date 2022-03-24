@@ -1,6 +1,7 @@
-import { beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
   InvalidCalculatorExecuteException,
+  InvalidNumberExecuteException,
   Operator,
   StringCalculator,
 } from "../../src/domain";
@@ -32,6 +33,12 @@ describe("문자열 계산기 테스트", () => {
 
       expect(() => stringCalculator.execute()).toThrow(
         InvalidCalculatorExecuteException
+      );
+    });
+
+    it("숫자가 아닌 값을 입력받을 경우 오류 발생", () => {
+      expect(() => stringCalculator.push("x")).toThrow(
+        InvalidNumberExecuteException
       );
     });
   });
