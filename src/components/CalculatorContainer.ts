@@ -5,7 +5,7 @@ import { CalculatorWindowControl } from "./CalculatorWindowControl";
 export function CalculatorContainer() {
   return `
     <div class="calculator">
-      ${CalculatorWindowControl}
+      ${CalculatorWindowControl()}
     
       ${CalculatorScreen()}
     
