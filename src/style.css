@@ -108,6 +108,7 @@ html {
 .calculator .number-pad-container > div.numbers {
   width: 75%;
   flex-flow: wrap;
+  flex-direction: row-reverse;
 }
 
 .calculator .number-pad-container > div.numbers > button {
