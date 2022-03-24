@@ -7,7 +7,7 @@ describe("연산자 테스트", () => {
 
   describe("덧셈, 뺄셈, 나눗셈, 곱셈 심볼 검사", () => {
     it("덧셈 = +", () => {
-      expect(Operator.PLUS.operator).toBe("+");
+      expect(Operator.ADD.operator).toBe("+");
     });
     it("뺄셈 = -", () => {
       expect(Operator.SUBTRACT.operator).toBe("-");
@@ -22,14 +22,17 @@ describe("연산자 테스트", () => {
 
   describe("덧셈, 뺄셈, 나눗셈, 곱셈을 지원", () => {
     it("덧셈", () => {
-      expect(Operator.PLUS.calculate(x, y)).toBe(x + y);
+      expect(Operator.ADD.calculate(x, y)).toBe(x + y);
     });
+
     it("뺄셈", () => {
       expect(Operator.SUBTRACT.calculate(x, y)).toBe(x - y);
     });
+
     it("나눗셈", () => {
       expect(Operator.DIVISION.calculate(x, y)).toBe(x / y);
     });
+
     it("곱셈", () => {
       expect(Operator.MULTIPLY.calculate(x, y)).toBe(x * y);
     });
