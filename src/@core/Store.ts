@@ -1,4 +1,4 @@
-export type Mutation<T> = (state: T, payload: unknown) => void;
+export type Mutation<T> = (state: T, payload: any) => void;
 
 export interface StoreContext<T> {
   state: T;
@@ -19,7 +19,7 @@ export class Store<T> {
     return Object.freeze(this._state);
   }
 
-  commit(actionType: string, payload: unknown) {
+  commit(actionType: string, payload?: any) {
     const { _state, mutations } = this;
     const mutation = mutations[actionType];
     if (mutation === undefined) {
