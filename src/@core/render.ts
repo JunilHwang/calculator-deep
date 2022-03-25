@@ -57,6 +57,7 @@ function Render() {
         $target.addEventListener(eventType, callback);
       });
     });
+    eventStore.length = 0;
   }
 
   function render(rootComponent: () => string, $root: HTMLElement) {
@@ -67,11 +68,11 @@ function Render() {
     _render();
   }
 
-  const { useState } = createHooks(_render);
+  const { useState, useMemo } = createHooks(_render);
 
-  return { render, addEvent, useState };
+  return { render, addEvent, useState, useMemo };
 }
 
-const { render, addEvent, useState } = Render();
+const { render, addEvent, useState, useMemo } = Render();
 
-export { render, addEvent, useState };
+export { render, addEvent, useState, useMemo };
