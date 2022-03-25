@@ -6,30 +6,37 @@ export interface StoreContext<T> {
 }
 
 export class Store<T> {
-  private readonly _state: T;
-  private readonly mutations: Record<string, Mutation<T>>;
-  private readonly observers: Set<() => void> = new Set();
+  #state: T;
+  readonly #mutations: Record<string, Mutation<T>>;
+  readonly #observers: Set<() => void> = new Set();
 
   constructor({ state, mutations }: StoreContext<T>) {
-    this._state = state;
-    this.mutations = mutations;
+    this.#state = state;
+    this.#mutations = mutations;
   }
 
-  get state(): Readonly<T> {
-    return Object.freeze(this._state);
+  get state() {
+    return Object.freeze(this.#state);
   }
 
   commit(actionType: string, payload?: any) {
-    const { _state, mutations } = this;
-    const mutation = mutations[actionType];
+    const mutation = this.#mutations[actionType];
     if (mutation === undefined) {
-      throw new Error();
+      throw new NotFoundActionTypeException(actionType);
     }
-    mutation(_state, payload);
-    this.observers.forEach((fn) => fn());
+    const newState = { ...this.#state };
+    mutation(newState, payload);
+    this.#state = newState;
+    this.#observers.forEach((fn) => fn());
   }
 
   subscribe(observer: () => void) {
-    this.observers.add(observer);
+    this.#observers.add(observer);
+  }
+}
+
+export class NotFoundActionTypeException extends Error {
+  constructor(actionType: string) {
+    super(`${actionType} mutaiton이 정의되지 않았습니다.`);
   }
 }
