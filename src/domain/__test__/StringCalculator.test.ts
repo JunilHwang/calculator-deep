@@ -4,10 +4,10 @@ import {
   InvalidNumberExecuteException,
   Operator,
   StringCalculator,
-} from "../../src/domain";
+} from "../index";
 
 describe("문자열 계산기 테스트", () => {
-  let stringCalculator;
+  let stringCalculator: StringCalculator;
   beforeEach(() => {
     stringCalculator = new StringCalculator();
   });

@@ -4,7 +4,7 @@ import {
   InvalidOperatorParamException,
   NotFoundOperatorException,
   Operator,
-} from "../../src/domain";
+} from "../index";
 
 describe("연산자 테스트", () => {
   const x = 10;
@@ -12,15 +12,15 @@ describe("연산자 테스트", () => {
 
   describe("검증", () => {
     it("생성자 검증", () => {
-      expect(() => new Operator(undefined, undefined)).toThrow(
+      expect(() => new Operator(undefined as any, undefined as any)).toThrow(
         InvalidOperatorConstructException
       );
     });
 
     it("연산 검증", () => {
-      expect(() => Operator.ADD.calculate(undefined, undefined)).toThrow(
-        InvalidOperatorParamException
-      );
+      expect(() =>
+        Operator.ADD.calculate(undefined as any, undefined as any)
+      ).toThrow(InvalidOperatorParamException);
     });
   });
 
@@ -35,7 +35,7 @@ describe("연산자 테스트", () => {
       expect(Operator.DIVISION.symbol).toBe("/");
     });
     it("곱셈 = X", () => {
-      expect(Operator.MULTIPLY.symbol).toBe("X");
+      expect(Operator.MULTIPLY.symbol).toBe("x");
     });
   });
 
