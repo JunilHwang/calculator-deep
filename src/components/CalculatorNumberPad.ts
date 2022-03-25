@@ -5,9 +5,14 @@ interface Props {
   index: number;
   pushNumber: (n: number) => void;
   appendNumberString: (c: string) => void;
+  reset: () => void;
 }
 
-export function CalculatorNumberPad({ index, appendNumberString }: Props) {
+export function CalculatorNumberPad({
+  index,
+  appendNumberString,
+  reset,
+}: Props) {
   const numbers = useMemo(
     () =>
       Array(9)
@@ -25,10 +30,12 @@ export function CalculatorNumberPad({ index, appendNumberString }: Props) {
     }
   );
 
+  addEvent("click", `[data-index="${index}"] .reset`, reset);
+
   return `
     <div class="number-pad-container">
       <div class="operators rows">
-        <button type="button">C</button>
+        <button type="button" class="reset">C</button>
       </div>
       <div class="operators cols">
         <button type="button">${Operator.ADD.symbol}</button>

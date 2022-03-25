@@ -43,6 +43,11 @@ export function CalculatorContainer({ index }: Props) {
     setCurrentNumber(newNumber);
   }
 
+  function reset() {
+    stringCalculator.reset();
+    setCurrentNumber("0");
+  }
+
   addEvent("click", `[data-index="${index}"] .hide-box`, show);
 
   return `
@@ -53,7 +58,7 @@ export function CalculatorContainer({ index }: Props) {
     
       ${CalculatorScreen({ currentNumber })}
     
-      ${CalculatorNumberPad({ index, pushNumber, appendNumberString })}
+      ${CalculatorNumberPad({ index, pushNumber, appendNumberString, reset })}
     </div>
   `;
 }
