@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeAll } from "vitest";
 import { NotFoundActionTypeException, Store } from "../Store";
 
-describe("저장소 코어 로직 테스트", () => {
+describe("@core/Store.test", () => {
   let store: Store<{ foo: string }>;
 
   beforeAll(() => {

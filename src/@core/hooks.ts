@@ -3,7 +3,7 @@ interface Memo<T = any> {
   value: T;
 }
 
-export function createHooks(render: () => void) {
+export function createHooks(callback: () => void) {
   const stateContext = {
     current: 0,
     states: [] as unknown[],
@@ -28,7 +28,7 @@ export function createHooks(render: () => void) {
     const setState = (newState: T) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      render();
+      callback();
     };
 
     return [states[current] as T, setState];
