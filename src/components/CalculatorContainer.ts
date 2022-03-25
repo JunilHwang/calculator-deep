@@ -1,8 +1,8 @@
+import { addEvent, useMemo, useState } from "../@core";
 import { CalculatorNumberPad } from "./CalculatorNumberPad";
 import { CalculatorScreen } from "./CalculatorScreen";
 import { CalculatorWindowControl } from "./CalculatorWindowControl";
-import { addEvent, useState } from "../@core";
-import { REMOVE_CALCULATOR, store } from "../store";
+import { REMOVE_CALCULATOR, SET_STRING_CALCULATOR, store } from "../store";
 
 interface Props {
   index: number;
@@ -10,6 +10,12 @@ interface Props {
 
 export function CalculatorContainer({ index }: Props) {
   const [hiding, setHiding] = useState(false);
+  const [currentNumber, setCurrentNumber] = useState("0");
+
+  const stringCalculator = useMemo(
+    () => store.state.calculators[index],
+    [index]
+  );
 
   function hide() {
     setHiding(true);
@@ -23,6 +29,20 @@ export function CalculatorContainer({ index }: Props) {
     store.commit(REMOVE_CALCULATOR, index);
   }
 
+  function pushNumber(n: number) {
+    stringCalculator.push(n);
+    store.commit(SET_STRING_CALCULATOR, {
+      stringCalculator,
+      index,
+    });
+  }
+
+  function appendNumberString(character: string) {
+    const newNumber = currentNumber + character;
+    if (isNaN(Number(newNumber))) return;
+    setCurrentNumber(newNumber);
+  }
+
   addEvent("click", `[data-index="${index}"] .hide-box`, show);
 
   return `
@@ -31,9 +51,9 @@ export function CalculatorContainer({ index }: Props) {
     
       ${CalculatorWindowControl({ hide, close, index })}
     
-      ${CalculatorScreen()}
+      ${CalculatorScreen({ currentNumber })}
     
-      ${CalculatorNumberPad()}
+      ${CalculatorNumberPad({ index, pushNumber, appendNumberString })}
     </div>
   `;
 }
