@@ -1,4 +1,4 @@
-import { Operator } from "../domain";
+import { Operator } from "../@domain";
 import { addEvent, useMemo } from "../@core";
 
 interface Props {

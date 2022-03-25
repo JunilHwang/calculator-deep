@@ -27,7 +27,11 @@ export function CalculatorContainer({ index }: Props) {
   }
 
   function close() {
-    store.commit(REMOVE_CALCULATOR, index);
+    try {
+      store.commit(REMOVE_CALCULATOR, index);
+    } catch (e) {
+      alert("적어도 한 개 이상의 계산기가 존재해야합니다.");
+    }
   }
 
   function appendNumberString(character: string) {

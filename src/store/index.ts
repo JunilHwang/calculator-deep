@@ -1,5 +1,5 @@
 import { Store } from "../@core";
-import { StringCalculator } from "../domain";
+import { StringCalculator } from "../@domain";
 
 export const NEW_CALCULATOR = "NEW_CALCULATOR";
 export const REMOVE_CALCULATOR = "REMOVE_CALCULATOR";
@@ -20,6 +20,9 @@ export const store = new Store<RootState>({
     },
 
     [REMOVE_CALCULATOR](state, index: number) {
+      if (state.calculators.length === 1) {
+        throw new Error();
+      }
       state.calculators.splice(index, 1);
     },
 

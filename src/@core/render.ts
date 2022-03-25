@@ -30,7 +30,6 @@ function Render() {
     $root.innerHTML = rootComponent();
     bindEvents();
     resetContext();
-    console.log("_render");
   });
 
   function addEvent<T>(
