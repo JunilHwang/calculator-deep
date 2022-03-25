@@ -11,7 +11,7 @@ export function App() {
 
   if (calculators.length === 0) {
     appendCalculator();
-    return;
+    return "";
   }
 
   addEvent("click", ".appender", () => {
