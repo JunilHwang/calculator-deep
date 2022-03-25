@@ -22,12 +22,7 @@ function Render() {
   const _render = debounceFrame(() => {
     const { $root, rootComponent } = context;
 
-    if (!$root || !rootComponent) {
-      throw new Error();
-    }
-
-    // removeEvents();
-    $root.innerHTML = rootComponent();
+    $root!.innerHTML = rootComponent!();
     bindEvents();
     resetContext();
   });
@@ -43,13 +38,6 @@ function Render() {
       callback,
     });
   }
-
-  // function removeEvents() {
-  //   eventStore.forEach(({ eventType, $target, callback }) => {
-  //     $target.removeEventListener(eventType, callback);
-  //   });
-  //   eventStore.length = 0;
-  // }
 
   function bindEvents() {
     eventStore.forEach(({ eventType, selector, callback }) => {
