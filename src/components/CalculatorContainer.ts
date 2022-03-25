@@ -2,7 +2,7 @@ import { addEvent, useMemo, useState } from "../@core";
 import { CalculatorNumberPad } from "./CalculatorNumberPad";
 import { CalculatorScreen } from "./CalculatorScreen";
 import { CalculatorWindowControl } from "./CalculatorWindowControl";
-import { REMOVE_CALCULATOR, SET_STRING_CALCULATOR, store } from "../store";
+import { REMOVE_CALCULATOR, store } from "../store";
 
 interface Props {
   index: number;
@@ -11,6 +11,7 @@ interface Props {
 export function CalculatorContainer({ index }: Props) {
   const [hiding, setHiding] = useState(false);
   const [currentNumber, setCurrentNumber] = useState("0");
+  const [toggle, setToggle] = useState(false);
 
   const stringCalculator = useMemo(
     () => store.state.calculators[index],
@@ -29,15 +30,12 @@ export function CalculatorContainer({ index }: Props) {
     store.commit(REMOVE_CALCULATOR, index);
   }
 
-  function pushNumber(n: number) {
-    stringCalculator.push(n);
-    store.commit(SET_STRING_CALCULATOR, {
-      stringCalculator,
-      index,
-    });
-  }
-
   function appendNumberString(character: string) {
+    if (toggle) {
+      setToggle(false);
+      setCurrentNumber(character);
+      return;
+    }
     const newNumber = currentNumber + character;
     if (isNaN(Number(newNumber))) return;
     setCurrentNumber(newNumber);
@@ -46,6 +44,23 @@ export function CalculatorContainer({ index }: Props) {
   function reset() {
     stringCalculator.reset();
     setCurrentNumber("0");
+  }
+
+  function pushNumber() {
+    const [prefix, suffix = ""] = currentNumber.split(".");
+    stringCalculator.push(`${prefix}.${suffix.substring(0, 5)}`);
+  }
+
+  function pushNumberAndOperator(operator: string) {
+    pushNumber();
+    stringCalculator.operator = operator;
+    setToggle(true);
+  }
+
+  function calculate() {
+    if (!toggle) pushNumber();
+    setCurrentNumber(stringCalculator.execute().toString());
+    setToggle(true);
   }
 
   addEvent("click", `[data-index="${index}"] .hide-box`, show);
@@ -58,7 +73,13 @@ export function CalculatorContainer({ index }: Props) {
     
       ${CalculatorScreen({ currentNumber })}
     
-      ${CalculatorNumberPad({ index, pushNumber, appendNumberString, reset })}
+      ${CalculatorNumberPad({
+        index,
+        appendNumberString,
+        reset,
+        pushNumberAndOperator,
+        calculate,
+      })}
     </div>
   `;
 }

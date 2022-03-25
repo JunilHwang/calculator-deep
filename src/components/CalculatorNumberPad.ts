@@ -3,15 +3,18 @@ import { addEvent, useMemo } from "../@core";
 
 interface Props {
   index: number;
-  pushNumber: (n: number) => void;
   appendNumberString: (c: string) => void;
   reset: () => void;
+  pushNumberAndOperator: (operator: string) => void;
+  calculate: () => void;
 }
 
 export function CalculatorNumberPad({
   index,
   appendNumberString,
   reset,
+  pushNumberAndOperator,
+  calculate,
 }: Props) {
   const numbers = useMemo(
     () =>
@@ -22,6 +25,8 @@ export function CalculatorNumberPad({
     []
   );
 
+  const RESET_SYMBOL = "C";
+
   addEvent<{ target: HTMLElement }>(
     "click",
     `[data-index="${index}"] .numbers button`,
@@ -30,12 +35,27 @@ export function CalculatorNumberPad({
     }
   );
 
-  addEvent("click", `[data-index="${index}"] .reset`, reset);
+  addEvent<{ target: HTMLElement }>(
+    "click",
+    `[data-index="${index}"] .operators button`,
+    ({ target }) => {
+      const symbol = target.innerHTML;
+      switch (symbol) {
+        case RESET_SYMBOL:
+          return reset();
+        case Operator.EQUALS:
+          return calculate();
+        default:
+          pushNumberAndOperator(symbol);
+          break;
+      }
+    }
+  );
 
   return `
     <div class="number-pad-container">
       <div class="operators rows">
-        <button type="button" class="reset">C</button>
+        <button type="button" class="reset">${RESET_SYMBOL}</button>
       </div>
       <div class="operators cols">
         <button type="button">${Operator.ADD.symbol}</button>
