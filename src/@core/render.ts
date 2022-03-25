@@ -3,8 +3,8 @@ import { debounceFrame } from "../utils";
 
 interface EventStoreItem {
   eventType: string;
-  $target: Element;
-  callback: (event: unknown) => void;
+  selector: string;
+  callback: (event?: any) => void;
 }
 
 function Render() {
@@ -26,35 +26,36 @@ function Render() {
       throw new Error();
     }
 
-    removeEvents();
+    // removeEvents();
     $root.innerHTML = rootComponent();
     bindEvents();
+    console.log("_render");
   });
 
-  function addEvent(
+  function addEvent<T>(
     eventType: string,
     selector: string,
-    callback: (e: unknown) => void
+    callback: (e: T) => void
   ) {
-    context.$root!.querySelectorAll(selector).forEach(($target: Element) => {
-      eventStore.push({
-        eventType,
-        $target,
-        callback,
-      });
+    eventStore.push({
+      eventType,
+      selector,
+      callback,
     });
   }
 
-  function removeEvents() {
-    eventStore.forEach(({ eventType, $target, callback }) => {
-      $target.removeEventListener(eventType, callback);
-    });
-    eventStore.length = 0;
-  }
+  // function removeEvents() {
+  //   eventStore.forEach(({ eventType, $target, callback }) => {
+  //     $target.removeEventListener(eventType, callback);
+  //   });
+  //   eventStore.length = 0;
+  // }
 
   function bindEvents() {
-    eventStore.forEach(({ eventType, $target, callback }) => {
-      $target.addEventListener(eventType, callback);
+    eventStore.forEach(({ eventType, selector, callback }) => {
+      context.$root!.querySelectorAll(selector).forEach(($target: Element) => {
+        $target.addEventListener(eventType, callback);
+      });
     });
   }
 

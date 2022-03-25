@@ -1,26 +1,30 @@
 import { CalculatorNumberPad } from "./CalculatorNumberPad";
 import { CalculatorScreen } from "./CalculatorScreen";
 import { CalculatorWindowControl } from "./CalculatorWindowControl";
-import { HIDE_CALCULATOR, REMOVE_CALCULATOR, store } from "../store";
+import { addEvent, useState } from "../@core";
 
 interface Props {
   index: number;
 }
 
 export function CalculatorContainer({ index }: Props) {
-  const { stringCalculator } = store.state.calculatorWindow[index];
+  const [hiding, setHiding] = useState(false);
 
   function hide() {
-    store.commit(HIDE_CALCULATOR, index);
+    setHiding(true);
   }
 
-  function close() {
-    store.commit(REMOVE_CALCULATOR, index);
+  function show() {
+    setHiding(false);
   }
+
+  addEvent("click", `[data-index="${index}"] .hide-box`, show);
 
   return `
-    <div class="calculator">
-      ${CalculatorWindowControl({ hide, close })}
+    <div class="calculator ${hiding ? "hiding" : ""}" data-index="${index}">
+      ${hiding ? `<button class="hide-box">계산기 ${index + 1}</button>` : ""}
+    
+      ${CalculatorWindowControl({ hide, index })}
     
       ${CalculatorScreen()}
     

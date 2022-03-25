@@ -1,13 +1,20 @@
+import { addEvent } from "../@core";
+
 interface Props {
   hide: () => void;
-  close: () => void;
+  index: number;
 }
 
-export function CalculatorWindowControl({ hide, close }: Props) {
+export function CalculatorWindowControl({ hide, index }: Props) {
+  addEvent<MouseEvent>("click", `.hide[data-index="${index}"]`, (e) => {
+    e.preventDefault();
+    hide();
+  });
+
   return `
     <div class="header">
-      <a href="#" class="close">×</a>
-      <a href="#" class="hide">-</a>
+      <a href="#" class="close" data-index="${index}">×</a>
+      <a href="#" class="hide" data-index="${index}">-</a>
     </div>
   `;
 }

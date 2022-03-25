@@ -4,10 +4,10 @@ export function createHooks(notify: () => void) {
     states: [] as unknown[],
   };
 
-  const useState = <T>(initState: T) => {
+  const useState = <T>(initState: T): [T, (state: T) => void] => {
     const { current, states } = context;
 
-    const state = states[current] || initState;
+    const state = (states[current] as T) || initState;
 
     const setState = (newState: T) => {
       if (newState === states[current]) return;
