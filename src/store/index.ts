@@ -2,36 +2,25 @@ import { Store } from "../@core";
 import { StringCalculator } from "../domain";
 
 export const NEW_CALCULATOR = "NEW_CALCULATOR";
-export const HIDE_CALCULATOR = "HIDE_CALCULATOR";
 export const REMOVE_CALCULATOR = "REMOVE_CALCULATOR";
 export const SET_STRING_CALCULATOR = "SET_STRING_CALCULATOR";
 
 export interface RootState {
-  calculatorWindow: Array<{
-    hiding: boolean;
-    stringCalculator: StringCalculator;
-  }>;
+  calculators: StringCalculator[];
 }
 
 export const store = new Store<RootState>({
   state: {
-    calculatorWindow: [],
+    calculators: [],
   },
 
   mutations: {
     [NEW_CALCULATOR](state) {
-      state.calculatorWindow.push({
-        hiding: false,
-        stringCalculator: new StringCalculator(),
-      });
-    },
-
-    [HIDE_CALCULATOR](state, index: number) {
-      state.calculatorWindow[index].hiding = true;
+      state.calculators.push(new StringCalculator());
     },
 
     [REMOVE_CALCULATOR](state, index: number) {
-      state.calculatorWindow.splice(index, 1);
+      state.calculators.splice(index, 1);
     },
 
     [SET_STRING_CALCULATOR](
@@ -39,7 +28,7 @@ export const store = new Store<RootState>({
       payload: { stringCalculator: StringCalculator; index: number }
     ) {
       const { index, stringCalculator } = payload;
-      state.calculatorWindow[index].stringCalculator = stringCalculator;
+      state.calculators[index] = stringCalculator;
     },
   },
 });

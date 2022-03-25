@@ -29,6 +29,7 @@ function Render() {
     // removeEvents();
     $root.innerHTML = rootComponent();
     bindEvents();
+    resetContext();
     console.log("_render");
   });
 
@@ -68,7 +69,7 @@ function Render() {
     _render();
   }
 
-  const { useState, useMemo } = createHooks(_render);
+  const { useState, useMemo, resetContext } = createHooks(_render);
 
   return { render, addEvent, useState, useMemo };
 }

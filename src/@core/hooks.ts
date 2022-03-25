@@ -14,21 +14,21 @@ export function createHooks(render: () => void) {
     memos: [] as Memo[],
   };
 
-  function notify() {
-    render();
+  function resetContext() {
     stateContext.current = 0;
+    memoContext.current = 0;
   }
 
   const useState = <T>(initState: T): [T, (state: T) => void] => {
     const { current, states } = stateContext;
     stateContext.current += 1;
 
-    states[current] = initState || states[current];
+    states[current] = states[current] ?? initState;
 
     const setState = (newState: T) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      notify();
+      render();
     };
 
     return [states[current] as T, setState];
@@ -42,7 +42,10 @@ export function createHooks(render: () => void) {
 
     const resetAndReturn = () => {
       const value = fn();
-      memos[current].value = value;
+      memos[current] = {
+        value,
+        refs,
+      };
       return value;
     };
 
@@ -56,5 +59,5 @@ export function createHooks(render: () => void) {
     return memo.value;
   };
 
-  return { useState, useMemo };
+  return { useState, useMemo, resetContext };
 }

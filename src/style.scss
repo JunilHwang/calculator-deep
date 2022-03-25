@@ -8,6 +8,11 @@ a {
   text-decoration: none;
 }
 
+ul,
+li {
+  list-style: none;
+}
+
 button {
   cursor: pointer;
 }
@@ -22,14 +27,62 @@ html {
   padding: 20px;
 }
 
+.calculator-wrap {
+  display: flex;
+  flex-flow: wrap;
+
+  li {
+    margin: 0 10px 10px 0;
+  }
+
+  .appender {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    height: 416px;
+    background: #ddd;
+    color: #666;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 3px 3px 3px #aaa;
+    transition: 0.3s;
+
+    &:hover {
+      background: #eee;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      background: #888;
+    }
+
+    $size: 15px;
+    &::before {
+      left: calc(50% - #{$size});
+      right: calc(50% - #{$size});
+      height: 3px;
+    }
+
+    &::after {
+      top: calc(50% - #{$size});
+      bottom: calc(50% - #{$size});
+      width: 3px;
+    }
+  }
+}
+
 .calculator {
   width: 300px;
-  display: inline-block;
   padding: 10px;
   border-radius: 5px;
   background: #333;
   color: #fff;
   transition: 0.3s;
+  box-shadow: 3px 3px 3px #aaa;
 
   &.hiding {
     .header,

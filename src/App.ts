@@ -1,16 +1,33 @@
 import { CalculatorContainer } from "./components";
 import { NEW_CALCULATOR, store } from "./store";
+import { addEvent } from "./@core";
 
 export function App() {
-  const { calculatorWindow } = store.state;
+  const { calculators } = store.state;
 
-  if (calculatorWindow.length === 0) {
+  function appendCalculator() {
     store.commit(NEW_CALCULATOR);
-    return "";
   }
 
-  return Object.keys(calculatorWindow)
-    .map(Number)
-    .map((index) => CalculatorContainer({ index }))
-    .join("");
+  if (calculators.length === 0) {
+    appendCalculator();
+    return;
+  }
+
+  addEvent("click", ".appender", () => {
+    appendCalculator();
+  });
+
+  return `
+    <ul class="calculator-wrap">
+      ${Object.keys(calculators)
+        .map(Number)
+        .map((index) => `<li>${CalculatorContainer({ index })}</li>`)
+        .join("")}
+      
+      <li>
+        <button class="appender"></button>
+      </li>
+    </ul>
+  `;
 }

@@ -10,8 +10,6 @@ function main() {
   render(App, $app);
 }
 
-store.subscribe(() => {
-  main();
-});
+store.subscribe(main);
 
 main();
