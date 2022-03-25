@@ -5,18 +5,18 @@ import {
 } from "./exceptions";
 
 export class StringCalculator {
-  private stack!: number[];
-  private _record!: Array<number | string>;
-  private _operator?: string;
+  #stack!: number[];
+  #record!: Array<number | string>;
+  #operator?: string;
 
   constructor() {
     this.reset();
   }
 
   public reset() {
-    this.stack = [];
-    this._record = [];
-    this._operator = undefined;
+    this.#stack = [];
+    this.#record = [];
+    this.#operator = undefined;
   }
 
   public push(value: number | string) {
@@ -24,36 +24,38 @@ export class StringCalculator {
     if (isNaN(number)) {
       throw new InvalidNumberExecuteException();
     }
-    if (this.stack.length === 0) {
-      this.stack.push(number);
+    if (this.#stack.length === 0) {
+      this.#stack.push(number);
     } else {
-      this.stack[1] = number;
+      this.#stack[1] = number;
     }
   }
 
   public set operator(symbol: string) {
-    this._operator = Operator.valueOf(symbol).symbol;
+    this.#operator = Operator.valueOf(symbol).symbol;
   }
 
   public execute(): number {
-    const { stack, _operator, _record } = this;
-    const [x, y] = stack;
-    if ([x, y, _operator].includes(undefined)) {
+    const operator = this.#operator;
+    const record = this.#record;
+    const [x, y] = this.#stack;
+
+    if ([x, y, operator].includes(undefined)) {
       throw new InvalidCalculatorExecuteException();
     }
 
-    const result = Operator.calculate(_operator!, x, y);
-    this.stack = [result, y];
+    const result = Operator.calculate(operator!, x, y);
+    this.#stack = [result, y];
 
-    if (_record.length === 0) {
-      _record.push(x);
+    if (record.length === 0) {
+      record.push(x);
     }
-    _record.push(_operator!, y);
+    record.push(operator!, y);
 
     return result;
   }
 
   public get record() {
-    return Array.from(this._record);
+    return Array.from(this.#record);
   }
 }

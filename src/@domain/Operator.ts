@@ -5,7 +5,7 @@ import {
 } from "./exceptions";
 
 export class Operator {
-  private static values: Record<string, Operator> = {};
+  static #values: Record<string, Operator> = {};
 
   public static ADD = new Operator("+", (x, y) => x + y);
   public static SUBTRACT = new Operator("-", (x, y) => x - y);
@@ -13,25 +13,27 @@ export class Operator {
   public static DIVISION = new Operator("/", (x, y) => x / y);
   public static EQUALS = "=";
 
-  constructor(
-    private readonly operator: string,
-    private readonly _calculate: (x: number, y: number) => number
-  ) {
-    if (operator === undefined || _calculate === undefined) {
+  readonly #operator: string;
+  readonly #calculate: (x: number, y: number) => number;
+
+  constructor(operator: string, calculate: (x: number, y: number) => number) {
+    if (operator === undefined || calculate === undefined) {
       throw new InvalidOperatorConstructException();
     }
-    Operator.values[operator] = this;
+    this.#operator = operator;
+    this.#calculate = calculate;
+    Operator.#values[operator] = this;
   }
 
   public get symbol() {
-    return this.operator;
+    return this.#operator;
   }
 
   public calculate(x: number, y: number) {
     if (x === undefined || y === undefined) {
       throw new InvalidOperatorParamException();
     }
-    return this._calculate(x, y);
+    return this.#calculate(x, y);
   }
 
   public static calculate(symbol: string, x: number, y: number) {
@@ -42,10 +44,10 @@ export class Operator {
     if (!this.has(symbol)) {
       throw new NotFoundOperatorException();
     }
-    return this.values[symbol];
+    return this.#values[symbol];
   }
 
   public static has(symbol: string) {
-    return Boolean(this.values[symbol]);
+    return Boolean(this.#values[symbol]);
   }
 }

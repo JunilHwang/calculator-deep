@@ -7,9 +7,6 @@ import {
 } from "../index";
 
 describe("연산자 테스트", () => {
-  const x = 10;
-  const y = 4;
-
   describe("검증", () => {
     it("생성자 검증", () => {
       expect(() => new Operator(undefined as any, undefined as any)).toThrow(
@@ -41,19 +38,19 @@ describe("연산자 테스트", () => {
 
   describe("덧셈, 뺄셈, 나눗셈, 곱셈을 지원", () => {
     it("덧셈", () => {
-      expect(Operator.ADD.calculate(x, y)).toBe(x + y);
+      expect(Operator.ADD.calculate(1, 2)).toBe(3);
     });
 
     it("뺄셈", () => {
-      expect(Operator.SUBTRACT.calculate(x, y)).toBe(x - y);
+      expect(Operator.SUBTRACT.calculate(1, 2)).toBe(-1);
     });
 
     it("나눗셈", () => {
-      expect(Operator.DIVISION.calculate(x, y)).toBe(x / y);
+      expect(Operator.DIVISION.calculate(2, 4)).toBe(0.5);
     });
 
     it("곱셈", () => {
-      expect(Operator.MULTIPLY.calculate(x, y)).toBe(x * y);
+      expect(Operator.MULTIPLY.calculate(3, 4)).toBe(12);
     });
   });
 
