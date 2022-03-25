@@ -1,3 +1,6 @@
+import { createHooks } from "./hooks";
+import { debounceFrame } from "../utils";
+
 interface EventStoreItem {
   eventType: string;
   $target: Element;
@@ -16,7 +19,7 @@ function Render() {
     return Boolean(context.$root && context.rootComponent);
   }
 
-  function _render() {
+  const _render = debounceFrame(() => {
     const { $root, rootComponent } = context;
 
     if (!$root || !rootComponent) {
@@ -26,7 +29,7 @@ function Render() {
     removeEvents();
     $root.innerHTML = rootComponent();
     bindEvents();
-  }
+  });
 
   function addEvent(
     eventType: string,
@@ -63,9 +66,11 @@ function Render() {
     _render();
   }
 
-  return { render, addEvent };
+  const { useState } = createHooks(_render);
+
+  return { render, addEvent, useState };
 }
 
-const { render, addEvent } = Render();
+const { render, addEvent, useState } = Render();
 
-export { render, addEvent };
+export { render, addEvent, useState };

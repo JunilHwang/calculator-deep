@@ -11,3 +11,14 @@ export function selectElements<T = HTMLElement>(
 ): T[] {
   return Array.from(parent.querySelectorAll(selector)) as unknown as T[];
 }
+
+export function debounceFrame(callback: (...args: unknown[]) => void) {
+  let currentFrame = -1;
+
+  return (...args: unknown[]) => {
+    cancelAnimationFrame(currentFrame);
+    currentFrame = requestAnimationFrame(() => {
+      callback(...args);
+    });
+  };
+}
